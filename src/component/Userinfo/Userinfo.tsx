@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import styless from './user.module.scss'
 import reducerFun, { initialUserstate } from '../Store/reducerFun';
 import { type } from 'os';
@@ -10,8 +10,20 @@ const Userinfo=()=>{
 
     const[cmp, setCmp]=useState('')
 
+    let ageInputref:any=useRef();
+
+    useEffect(()=>{
+        console.log( console.log(ageInputref?.current?.value))
+    },[ageInputref?.current?.value])
+
     const submitdata=()=>{
         console.log('state', state)
+        ageInputref= document.getElementById('age');
+      
+        if (ageInputref?.current) {
+            console.log(ageInputref?.current)
+            
+        }  
     }
     const cmpuser=(e:any)=>{
         if (e.target.value === username) {
@@ -34,6 +46,7 @@ const Userinfo=()=>{
     }
     return(
         <div className={styless['user-wrapper']}>
+           age.value{ageInputref?.current?.value}
             <div className={styless['userinfo']} >
                 <label htmlFor='username'>username</label>
                <input type="text"
@@ -46,7 +59,9 @@ const Userinfo=()=>{
             </div >
             <div className={styless['userinfo']}>
             <label htmlFor='age'>age</label>
-               <input type="number" name='age' id='age' placeholder='enter your age'
+               <input type="number" name='age' id='age' 
+               ref={ageInputref}
+               placeholder='enter your age'
                value={state.age}
                onChange={e=>ageDispatchFun(e.target.value)} />
             </div>
